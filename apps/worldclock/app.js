@@ -24,7 +24,7 @@ const yposTime2 = yposTime + (big ? 100 : 60);
 const yposDate = big ? 130 : 90;
 const yposWorld = big ? 170 : 120;
 
-const yposWeek = big ? 130 : 100;
+const yposWeek = big ? 140 : 100;
 
 const OFFSET_TIME_ZONE = 0;
 const OFFSET_HOURS = 1;

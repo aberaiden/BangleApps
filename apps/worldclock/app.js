@@ -9,10 +9,11 @@ const xcol2 = g.getWidth() - xcol1;
 const font = "6x8";
 
 const xyCenter = g.getWidth() / 2;
-const yposTime = 40;
-const yposDate = 70;
+const yposTime = 45;
+const yposDate = 75;
+const yposWeek = 95;
 const yposWorld = 120;
-const yposWeek = 90;
+
 
 const OFFSET_TIME_ZONE = 0;
 const OFFSET_HOURS = 1;
@@ -36,8 +37,8 @@ function getCurrentTimeFromOffset(dt, offset) {
 }
 
 // Returns the ISO week of the date.
-function getWeek(date) {
-  //var date = new Date(this.getTime());
+function getWeek() {
+  var date = new Date();
   date.setHours(0, 0, 0, 0);
   // Thursday in current week decides the year.
   date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
@@ -69,7 +70,7 @@ function draw() {
   var dayweek = require("locale").dow(d, 1);
   var day = d.getDate();
   var date = [dayweek, month, day].join(" ");
-  var week = getWeek(d);
+  var week = getWeek();
   g.setFont(font, primaryDateFontSize);
   g.drawString(date, xyCenter, yposDate, true);
 
@@ -105,8 +106,8 @@ Bangle.setUI("clock");
 Bangle.loadWidgets();
 Bangle.drawWidgets();
 
-Bangle.setPollInterval(4000);
-Bangle.accelWr(0x18,0x0A);
+//Bangle.setPollInterval(4000);
+//Bangle.accelWr(0x18,0x0A);
 
 // draw now
 draw();

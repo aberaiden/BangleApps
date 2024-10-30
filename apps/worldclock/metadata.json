@@ -1,9 +1,9 @@
 {
   "id": "worldclock",
-  "name": "World Clock - 4 time zones",
+  "name": "World Clock (abe)",
   "shortName": "World Clock",
   "version": "0.10",
-  "description": "Current time zone plus up to four others",
+  "description": "Local time plus up to four other time zones",
   "icon": "app.png",
   "screenshots": [{"url":"screenshot_world.png"}],
   "type": "clock",

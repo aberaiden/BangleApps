@@ -9,10 +9,10 @@ const xcol2 = g.getWidth() - xcol1;
 const font = "6x8";
 
 const xyCenter = g.getWidth() / 2;
-const yposTime = 60;
-const yposDate = 90;
+const yposTime = 40;
+const yposDate = 70;
 const yposWorld = 120;
-const yposWeek = 105;
+const yposWeek = 90;
 
 const OFFSET_TIME_ZONE = 0;
 const OFFSET_HOURS = 1;
@@ -66,13 +66,15 @@ function draw() {
   g.clearRect(0, yposTime - fontHeight / 2, g.getWidth(), yposTime + fontHeight / 2);
   g.drawString(`${time}`, xyCenter, yposTime, true);
   var month = require("locale").month(d, 1);
-  var dayweek = require("locale").dow(d, 1)
+  var dayweek = require("locale").dow(d, 1);
   var day = d.getDate();
   var date = [dayweek, month, day].join(" ");
-  var week = "Week ".getWeek();
+  var week = getWeek(d);
   g.setFont(font, primaryDateFontSize);
   g.drawString(date, xyCenter, yposDate, true);
-  g.drawString(week, xyCenter, yposWeek, true);
+
+  g.setFont(font, 2);
+  g.drawString("Week " + week, xyCenter, yposWeek, true);
 
   // set gmt to UTC+0
   var gmt = new Date(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
@@ -103,15 +105,8 @@ Bangle.setUI("clock");
 Bangle.loadWidgets();
 Bangle.drawWidgets();
 
-// Stop updates when LCD is off, restart when on
-Bangle.on('lcdPower',on=>{
-  if (on) {
-    draw(); // draw immediately, queue redraw
-  } else { // stop draw timer
-    if (drawTimeout) clearTimeout(drawTimeout);
-    drawTimeout = undefined;
-  }
-});
+Bangle.setPollInterval(4000);
+Bangle.accelWr(0x18,0x0A);
 
 // draw now
 draw();

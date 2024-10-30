@@ -24,6 +24,8 @@ const yposTime2 = yposTime + (big ? 100 : 60);
 const yposDate = big ? 130 : 90;
 const yposWorld = big ? 170 : 120;
 
+const yposWeek = big ? 140 : 90;
+
 const OFFSET_TIME_ZONE = 0;
 const OFFSET_HOURS = 1;
 
@@ -83,6 +85,19 @@ function getCurrentTimeFromOffset(dt, offset) {
   return new Date(dt.getTime() + offset * 60 * 60 * 1000);
 }
 
+// Returns the ISO week of the date.
+function getWeek(date) {
+  //var date = new Date(this.getTime());
+  date.setHours(0, 0, 0, 0);
+  // Thursday in current week decides the year.
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  // January 4 is always in week 1.
+  var week1 = new Date(date.getFullYear(), 0, 4);
+  // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+                        - 3 + (week1.getDay() + 6) % 7) / 7);
+}
+
 function draw() {
   // get date
   var d = new Date();
@@ -106,6 +121,7 @@ function draw() {
   var date = [dayweek, month, day].join(" ");
   g.setFont(font, primaryDateFontSize);
   g.drawString(date, xyCenter, yposDate, true);
+  g.drawString('Test 123', xyCenter, yposWeek, true);
 
   // set gmt to UTC+0
   var gmt = new Date(d.getTime() + d.getTimezoneOffset() * 60 * 1000);

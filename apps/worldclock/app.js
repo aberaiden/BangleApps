@@ -9,10 +9,10 @@ const xcol2 = g.getWidth() - xcol1;
 const font = "6x8";
 
 const xyCenter = g.getWidth() / 2;
-const yposTime = 45;
+const yposTime = 43;
 const yposDate = 75;
-const yposWeek = 95;
-const yposWorld = 120;
+const yposWeek = 100;
+const yposWorld = 130;
 
 
 const OFFSET_TIME_ZONE = 0;
@@ -81,18 +81,19 @@ function draw() {
   g.clearRect(0, yposTime - fontHeight / 2, g.getWidth(), yposTime + fontHeight / 2);
   g.drawString(`${time}`, xyCenter, yposTime, true);
   var month = require("locale").month(d, 1);
-  var dayweek = require("locale").dow(d, 1);
+  //var dayweek = require("locale").dow(d, 1);
   var day = d.getDate();
-  var date = [dayweek, month, day].join(" ");
   var week = getWeek();
+  var date = [month, day].join(" ") + " (v" + week + ")";
+
   g.setFont(font, primaryDateFontSize);
   g.drawString(date, xyCenter, yposDate, true);
 
-  g.fillRect(4,85,25,102); // outer
-  g.clearRect(6,87,23,100); // centre
+  // Box for Weekday
+  //g.fillRect(4,85,25,102); // outer
+  //g.clearRect(6,87,23,100); // centre
 
   g.setFont("4x6", 2);
-  //g.drawString("Week " + week, xyCenter, yposWeek, true);
   g.drawString("Mo                  ", xyCenter, yposWeek, false);
   g.drawString("   Tu               ", xyCenter, yposWeek, false);
   g.drawString("      Wd            ", xyCenter, yposWeek, false);
@@ -104,12 +105,17 @@ function draw() {
   g.setColor(0,0,0);
 
   g.setFont("4x6",2);
-  g.setColor(255,0,0);
-  //g.drawString("BT", 15, 10, true);
-  g.drawString(NRF.getSecurityStatus().connected,15,10,true);
-  g.setFont("6x8",2);
+  if (NRF.getSecurityStatus().connected) {
+    g.setColor(0,0,255);
+  } else {
+    g.setColor(255,0,0);
+  }
+  g.drawString("BT", 15, 10, true);
   g.setColor(0,0,0);
-  g.drawString("Local", xyCenter, 10, true);
+  
+  //g.setFont("6x8",2);
+  //g.setColor(0,0,0);
+  //g.drawString("Local", xyCenter, 10, true);
 
 
   // set gmt to UTC+0

@@ -104,8 +104,13 @@ function draw() {
   g.drawString("                  Su", xyCenter, yposWeek, false);
   g.setColor(0,0,0);
 
+  
+  //BT Widget (Red = off, Green = advertising, Blue = connected)
   g.setFont("4x6",2);
-  if (NRF.getSecurityStatus().connected) {
+  if (NRF.getSecurityStatus().advertising) {
+    g.setColor(0,255,0);
+  }
+  else if (NRF.getSecurityStatus().connected) {
     g.setColor(0,0,255);
   } else {
     g.setColor(255,0,0);
@@ -147,6 +152,10 @@ g.clear();
 Bangle.setUI("clock");
 //Bangle.loadWidgets();
 //Bangle.drawWidgets();
+
+Bangle.http("https://pur3.co.uk/hello.txt").then(data=>{
+  g.drawString(data.resp, 10, 20, true);
+});
 
 Bangle.setPollInterval(4000);
 Bangle.accelWr(0x18,0x0A);

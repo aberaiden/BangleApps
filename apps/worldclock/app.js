@@ -49,6 +49,20 @@ function getWeek() {
                         - 3 + (week1.getDay() + 6) % 7) / 7);
 }
 
+function drawBattery() {
+  var s = 26;
+  var t = 10; // thickness
+  var x = 151, y = 0;
+  //g.reset();
+  //g.setColor(g.theme.fg);
+  g.fillRect(x,y+2,x+s-4,y+2+t); // outer
+  g.clearRect(x+2,y+2+2,x+s-4-2,y+2+t-2); // centre
+  //g.setColor(g.theme.fg);
+  //g.fillRect(x+s-3,y+2+(((t - 1)/2)-1),x+s-2,y+2+(((t - 1)/2)-1)+4); // contact
+  g.setColor(0,0,255);
+  g.fillRect(x+3, y+5, x +4 + E.getBattery()*(s-12)/100, y+t-1); // the level
+}
+
 function draw() {
   // get date
   var d = new Date();
@@ -74,8 +88,29 @@ function draw() {
   g.setFont(font, primaryDateFontSize);
   g.drawString(date, xyCenter, yposDate, true);
 
-  g.setFont(font, 2);
-  g.drawString("Week " + week, xyCenter, yposWeek, true);
+  g.fillRect(4,85,25,102); // outer
+  g.clearRect(6,87,23,100); // centre
+
+  g.setFont("4x6", 2);
+  //g.drawString("Week " + week, xyCenter, yposWeek, true);
+  g.drawString("Mo                  ", xyCenter, yposWeek, false);
+  g.drawString("   Tu               ", xyCenter, yposWeek, false);
+  g.drawString("      Wd            ", xyCenter, yposWeek, false);
+  g.drawString("         Th         ", xyCenter, yposWeek, false);
+  g.drawString("            Fr      ", xyCenter, yposWeek, false);
+  g.setColor(255,0,0);
+  g.drawString("               Sa   ", xyCenter, yposWeek, false);
+  g.drawString("                  Su", xyCenter, yposWeek, false);
+  g.setColor(0,0,0);
+
+  g.setFont("4x6",2);
+  g.setColor(255,0,0);
+  //g.drawString("BT", 15, 10, true);
+  g.drawString(NRF.getSecurityStatus().connected,15,10,true);
+  g.setFont("6x8",2);
+  g.setColor(0,0,0);
+  g.drawString("Local", xyCenter, 10, true);
+
 
   // set gmt to UTC+0
   var gmt = new Date(d.getTime() + d.getTimezoneOffset() * 60 * 1000);
@@ -96,6 +131,7 @@ function draw() {
     g.drawString(time, xcol2, yposWorld + index * 15, true);
   });
 
+  drawBattery();
   queueDraw();
 }
 
@@ -103,11 +139,11 @@ function draw() {
 g.clear();
 // Show launcher when button pressed
 Bangle.setUI("clock");
-Bangle.loadWidgets();
-Bangle.drawWidgets();
+//Bangle.loadWidgets();
+//Bangle.drawWidgets();
 
-//Bangle.setPollInterval(4000);
-//Bangle.accelWr(0x18,0x0A);
+Bangle.setPollInterval(4000);
+Bangle.accelWr(0x18,0x0A);
 
 // draw now
 draw();

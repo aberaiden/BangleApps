@@ -2,7 +2,7 @@
   "id": "worldclock",
   "name": "World Clock (abe)",
   "shortName": "World Clock",
-  "version": "0.10",
+  "version": "0.11",
   "description": "Local time plus up to four other time zones",
   "icon": "app.png",
   "screenshots": [{"url":"screenshot_world.png"}],
